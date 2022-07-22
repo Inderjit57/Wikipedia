@@ -1,6 +1,7 @@
 package com.SpeerAssessment.Wikipedia;
 
 import java.util.List;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,10 +17,12 @@ public class WikipediaHomepage {
 
 	WebDriver wd;
 	WebDriverWait wait;
-	String url = "https://www.wikipedia.org/";
+	String url = "https://en.wikipedia.org/wiki/Schitt%27s_Creek";
+	Random random = new Random();
+	int counter;
 
 	@Test
-	public void verifyHomepage() {
+	public void verifyHomepage() throws Exception {
 		/*
 		 * Using WebDriverManager API to detect current browser version to setup
 		 * WebDriver
@@ -29,23 +32,27 @@ public class WikipediaHomepage {
 		// Intantiate Webdriver with the constructor of chromeDriver Class
 		wd = new ChromeDriver();
 
-		// Navigate to homepage and using if condition to validate URL
-		if (url.equals("https://www.wikipedia.org/")) {
-			wd.get("https://www.wikipedia.org/");
-			wait = new WebDriverWait(wd, 10);
+		// Step:1 Accepts a Wikipedia link - return/throw an error if the link is not a
+		// valid wiki link
 
+		if (url.contains("https://en.wikipedia.org/wiki/Schitt%27s_Creek")) {
+			wd.get(url);
+			wait = new WebDriverWait(wd, 10);
 			wd.manage().window().maximize();
 
+			counter = random.nextInt(6);
+
 			// Storing all the links in a List using findElements
-			List<WebElement> footerLinks = wd.findElements(By.tagName("a"));
+			List<WebElement> wikiLinkList = wd.findElements(By.xpath("//a[contains(@href,'wikipedia')]"));
+			System.out.println("No. of links present on this webpage :" + wikiLinkList.size());
 
-			System.out.println("No. of links present :" + footerLinks.size());
+			for (WebElement i : wikiLinkList) {
+				System.out.println("Wikipedia Link: " + i.getAttribute("href"));
 
-			for (WebElement i : footerLinks) {
-				System.out.println("Link: " + i + " URL: " + i.getAttribute("href"));
 			}
+
 		} else {
-			System.out.println("Please use correct url");
+			throw new Exception("Not a valid wiki link");
 		}
 
 	}
