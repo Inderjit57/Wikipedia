@@ -16,7 +16,7 @@ public class WikipediaHomepage {
 
 	WebDriver wd;
 	WebDriverWait wait;
-	String url = "https://www.wikipedia.or/";
+	String url = "https://www.wikipedia.org/";
 
 	@Test
 	public void verifyHomepage() {
@@ -36,11 +36,11 @@ public class WikipediaHomepage {
 
 			wd.manage().window().maximize();
 
-			List<WebElement> footerLinks = wd
-					.findElements(By.cssSelector("div[class='footer'] div[class='other-projects'] div a[href"));
+			List<WebElement> footerLinks = wd.findElements(By.tagName("a"));
+
 			System.out.println("No. of links present :" + footerLinks.size());
-			for (int i = 0; i < footerLinks.size(); i++) {
-				System.out.println("Link: " + i + " URL: " + footerLinks);
+			for (WebElement i : footerLinks) {
+				System.out.println("Link: " + i + " URL: " + i.getAttribute("href"));
 			}
 		} else {
 			System.out.println("Please use correct url");
