@@ -29,16 +29,18 @@ public class WikipediaHomepage {
 		// Intantiate Webdriver with the constructor of chromeDriver Class
 		wd = new ChromeDriver();
 
-		// Navigate to homepage if URL is correct
+		// Navigate to homepage and using if condition to validate URL
 		if (url.equals("https://www.wikipedia.org/")) {
 			wd.get("https://www.wikipedia.org/");
 			wait = new WebDriverWait(wd, 10);
 
 			wd.manage().window().maximize();
 
+			// Storing all the links in a List using findElements
 			List<WebElement> footerLinks = wd.findElements(By.tagName("a"));
 
 			System.out.println("No. of links present :" + footerLinks.size());
+
 			for (WebElement i : footerLinks) {
 				System.out.println("Link: " + i + " URL: " + i.getAttribute("href"));
 			}
